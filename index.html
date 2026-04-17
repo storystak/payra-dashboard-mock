@@ -418,18 +418,16 @@
   .erp-icon {
     width: 34px; height: 34px;
     border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid #EEF0F3;
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700;
-    color: #FFFFFF;
     flex-shrink: 0;
+    overflow: hidden;
   }
-  .erp-icon.dyn { background: #2B579A; }
-  .erp-icon.ns  { background: #171717; color: #22C0B5; font-size: 16px; }
-  .erp-icon.qb  { background: #2CA01C; }
-  .erp-icon.vp  { background: #0F6FD8; }
-  .erp-icon.sg  { background: #00DC82; color: #111; }
-  .erp-icon.acu { background: #000000; color: #FFA300; }
-  .erp-icon.ep  { background: #EB0029; }
+  .erp-icon img {
+    width: 24px; height: 24px;
+    object-fit: contain;
+  }
 
   /* Toast */
   .toast-container { position: absolute; top: 16px; right: 16px; z-index: 60; display: flex; flex-direction: column; gap: 8px; }
@@ -986,61 +984,61 @@
               <!-- ERP grid -->
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 <div class="erp-card">
-                  <div class="erp-icon dyn">D365</div>
+                  <div class="erp-icon"><img src="logos/Microsoft.avif" alt="Dynamics 365"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">Dynamics 365</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Configure</button>
                   <div class="switch"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon ns">∞</div>
+                  <div class="erp-icon"><img src="logos/Netsuite.avif" alt="NetSuite"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">NetSuite</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Edit</button>
                   <div class="switch on"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon qb">qb</div>
+                  <div class="erp-icon"><img src="logos/Quickbooks.avif" alt="QuickBooks"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">QuickBooks</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Edit</button>
                   <div class="switch on"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon qb">qb</div>
+                  <div class="erp-icon"><img src="logos/Quickbooks.avif" alt="QuickBooks Desktop"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">QuickBooks Desktop</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Edit</button>
                   <div class="switch on"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon vp">V</div>
+                  <div class="erp-icon"><img src="logos/Viewpoint.avif" alt="Viewpoint Vista"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">Viewpoint Vista</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Configure</button>
                   <div class="switch"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon vp">V</div>
+                  <div class="erp-icon"><img src="logos/Viewpoint.avif" alt="Viewpoint Spectrum"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">Viewpoint Spectrum</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Configure</button>
                   <div class="switch"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon sg">Sage</div>
+                  <div class="erp-icon"><img src="logos/Sage.avif" alt="Sage Intacct"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">Sage Intacct</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Edit</button>
                   <div class="switch on"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon acu">A</div>
+                  <div class="erp-icon"><img src="logos/Acumatica.avif" alt="Acumatica"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">Acumatica</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Configure</button>
                   <div class="switch"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon ep">e</div>
+                  <div class="erp-icon"><img src="logos/Epicore.avif" alt="Epicor P21"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">Epicor P21</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Configure</button>
                   <div class="switch"></div>
                 </div>
                 <div class="erp-card">
-                  <div class="erp-icon sg">Sage</div>
+                  <div class="erp-icon"><img src="logos/Sage.avif" alt="Sage 300"></div>
                   <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:600; color:#111;">Sage 300</div></div>
                   <button class="btn-secondary" style="padding:5px 10px; font-size:12px;">Configure</button>
                   <div class="switch"></div>
