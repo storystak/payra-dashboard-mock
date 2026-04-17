@@ -323,7 +323,8 @@
     background: #FFFFFF;
     border-radius: 12px;
     padding: 20px 22px;
-    width: 360px;
+    width: 100%;
+    max-width: 360px;
     box-shadow: 0 24px 60px rgba(17,17,17,0.2);
   }
 
@@ -449,9 +450,123 @@
   .scroll-area::-webkit-scrollbar-thumb { background: #D6D9DE; border-radius: 4px; }
 
   /* Responsive */
+  /* Defaults (desktop): hide mobile-only chrome. Media queries below override on narrow screens. */
+  .mobile-header { display: none; }
+  .mobile-drawer-overlay { display: none; }
+
   @media (max-width: 820px) {
-    .sidebar { display: none !important; }
+    /* Sidebar becomes a slide-in drawer instead of display:none */
+    .sidebar {
+      display: flex !important;
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      max-height: 100%;
+      width: 240px !important;
+      z-index: 40;
+      transform: translateX(-100%);
+      transition: transform .25s ease, box-shadow .25s ease;
+      overflow-y: auto;
+    }
+    .app-shell-inner.drawer-open .persona-view.active .sidebar,
+    .app-shell-inner.drawer-open > .persona-view:not([style*="display: none"]) .sidebar {
+      transform: translateX(0);
+      box-shadow: 4px 0 24px rgba(17,17,17,0.18);
+    }
+    .mobile-drawer-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(17,17,17,0.4);
+      z-index: 30;
+    }
+    .app-shell-inner.drawer-open .mobile-drawer-overlay { display: block; }
+
+    /* Mobile header (logo + hamburger) */
+    .mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--gray-border);
+      background: #FFFFFF;
+      position: relative;
+      z-index: 10;
+    }
+    .mobile-header .mobile-header-logo { display: flex; align-items: center; }
+    .mobile-header .mobile-header-logo img,
+    .mobile-header .mobile-header-logo svg { height: 20px; width: auto; display: block; }
+    .mobile-menu-btn {
+      background: transparent;
+      border: none;
+      padding: 8px;
+      margin: -8px;
+      cursor: pointer;
+      color: #111;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+    .mobile-menu-btn:hover { background: var(--gray-light); }
     .browser-url { display: none; }
+  }
+
+  /* ==========================================================
+     Mobile (phones, under 640px) — desktop is untouched above
+     ========================================================== */
+  @media (max-width: 640px) {
+    /* Content padding: drop from 28px to ~14px so content breathes on narrow screens */
+    .view, .view-flex { padding: 14px !important; }
+
+    /* Header rows (title + action buttons) wrap cleanly */
+    .view > .flex.justify-between,
+    .view-flex > .flex.justify-between { flex-wrap: wrap; row-gap: 10px; }
+
+    /* Settings sub-nav tabs: tighter spacing (parent already has overflow-x:auto inline) */
+    .settings-tab { margin-right: 16px; padding: 10px 2px; font-size: 12px; white-space: nowrap; }
+
+    /* Data tables: horizontal scroll within their own box — page doesn't overflow */
+    table.data-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; max-width: 100%; }
+    table.data-table td, table.data-table th { white-space: nowrap; }
+
+    /* Payment-method tabs row: swipeable */
+    #pm-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    #pm-tabs::-webkit-scrollbar { display: none; }
+
+    /* "Locked" ghost preview — stack the 3-column placeholders */
+    .locked-ghost .grid-cols-3 { grid-template-columns: 1fr !important; }
+
+    /* Slightly larger tap target on toggles */
+    .switch { width: 36px; height: 20px; }
+
+    /* Settings "click me" hint label stays compact */
+    .settings-hint-label { font-size: 9px; padding: 1px 5px; }
+
+    /* Main scroll area: let it expand; fixed 650px max-height feels cramped on mobile */
+    main.scroll-area { max-height: none !important; }
+
+    /* Merchant dashboard header: stack title above buttons, make buttons 2-col grid */
+    #merchant-home > .flex.justify-between {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    #merchant-home > .flex.justify-between > .flex.items-center.gap-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    #merchant-home > .flex.justify-between > .flex.items-center.gap-2 > button {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+
+  /* Very narrow (under 480px): simplify browser chrome */
+  @media (max-width: 480px) {
+    .browser-url { display: none !important; }
+    .browser-bar { padding: 8px 10px; gap: 8px; }
   }
 
   /* Logo sizing */
@@ -494,6 +609,17 @@
 
     <!-- App shell -->
     <div class="app-shell-inner relative" id="app-shell">
+
+      <!-- Mobile header (shown below 820px only) -->
+      <div class="mobile-header">
+        <span class="mobile-header-logo" id="mobile-header-logo" aria-label="Payra"></span>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Mobile drawer overlay (shown below 820px when drawer open) -->
+      <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
 
       <!-- ==================== MERCHANT VIEW ==================== -->
       <div id="persona-merchant" class="persona-view">
@@ -1417,7 +1543,50 @@
       customerView.style.display='';
       urlText.textContent = 'portal.payra.com/home';
     }
+    // Refresh mobile header logo to match the visible persona, and close drawer if open
+    updateMobileHeaderLogo();
+    closeMobileDrawer();
   });
+
+  // ---------- Mobile header + drawer ----------
+  const appShell = document.getElementById('app-shell');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileDrawerOverlay = document.getElementById('mobile-drawer-overlay');
+  const mobileHeaderLogo = document.getElementById('mobile-header-logo');
+
+  function updateMobileHeaderLogo(){
+    if(!mobileHeaderLogo) return;
+    const activePersona = merchantView.style.display === 'none' ? customerView : merchantView;
+    const sourceLogo = activePersona.querySelector('.payra-logo, .payra-logo-customer');
+    if(sourceLogo){
+      mobileHeaderLogo.innerHTML = '';
+      const clone = sourceLogo.cloneNode(true);
+      clone.removeAttribute('style');
+      mobileHeaderLogo.appendChild(clone);
+    }
+  }
+
+  function openMobileDrawer(){
+    appShell.classList.add('drawer-open');
+    mobileMenuBtn && mobileMenuBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeMobileDrawer(){
+    appShell.classList.remove('drawer-open');
+    mobileMenuBtn && mobileMenuBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  mobileMenuBtn && mobileMenuBtn.addEventListener('click', function(){
+    appShell.classList.contains('drawer-open') ? closeMobileDrawer() : openMobileDrawer();
+  });
+  mobileDrawerOverlay && mobileDrawerOverlay.addEventListener('click', closeMobileDrawer);
+
+  // Close the drawer whenever any sidebar item is clicked (user has navigated)
+  document.querySelectorAll('.sidebar .sidebar-item').forEach(item => {
+    item.addEventListener('click', closeMobileDrawer);
+  });
+
+  // Initial logo fill
+  updateMobileHeaderLogo();
 
   // Merchant tabs (active + settings + locked)
   const merchantTabs = document.querySelectorAll('[data-merchant-tab]');
